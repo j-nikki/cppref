@@ -1,0 +1,13 @@
+#!/bin/env zsh
+
+set -e
+
+(
+    cd "${0:A:h:h}"
+    selected_symbol=$(.venv/bin/python -m cppref.cli fetch | dmenu "$@")
+
+    if [ -n "$selected_symbol" ]; then
+        url=$(.venv/bin/python -m cppref.cli url "$selected_symbol")
+        gtk-launch `xdg-settings get default-web-browser` "$url"
+    fi
+)
